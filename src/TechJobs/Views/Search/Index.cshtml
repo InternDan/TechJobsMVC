@@ -1,0 +1,67 @@
+﻿<h1>@ViewBag.title</h1>
+
+<form action="/Search/Results">
+    <h2>Search by:</h2>
+
+    <p>
+        @foreach (KeyValuePair<string, string> column in ViewBag.columns)
+        {
+            <span>
+                <input type="radio"
+                       name="searchType"
+                       id="@column.Key"
+                       value="@column.Key"
+                       checked="@column.Key == 'all''" />
+                <label for="@column.Key">@column.Value</label>
+            </span>
+        }
+    </p>
+
+    <p>
+        <label for="searchTerm">Keyword:</label>
+        <input type="text" name="searchTerm" id="searchTerm" />
+    </p>
+
+    <input type="submit" value="Search" />
+</form>
+
+<hr />
+
+@if (ViewBag.jobs != null)
+{
+    @if (!ViewBag.jobs[0].ContainsKey("noResult"))
+    {
+    <h3>@ViewBag.jobs.Count Result(s)</h3>
+    }
+    // TODO #2 - Loop over jobs dictionary and display all job fields
+
+    @foreach (Dictionary<string, string> job in ViewBag.jobs)
+    {
+        <table class="job-listing">
+            <tbody>
+                @foreach (KeyValuePair<string, string> item in job)
+                {
+                    @if (item.Key.Equals("noResult"))
+                    {
+                        <p>There is no result for @item.Value</p>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@item.Value</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}
+
+
+
+
+
+
+
